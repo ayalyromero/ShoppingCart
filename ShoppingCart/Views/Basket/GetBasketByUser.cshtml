@@ -1,0 +1,67 @@
+﻿@model ShoppingCart.Models.Basket
+
+@{
+    ViewData["Title"] = "GetByUser";
+}
+
+<h1>Shopping Cart</h1>
+
+
+@if (Model != null)
+{
+
+    <div class="col-12">
+        <br />
+        <div class="form-group row">
+            <h5 class="col-sm-12 ">Creation date: @Model.CreatedDate.ToShortDateString() </h5>
+        </div>
+        <div class="form-group row">
+            <h5 class="col-sm-12 ">Total: <span>€@Model.Total</span> </h5>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BasketDetails)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        € @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @(item.Quantity * item.Price)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>There are no products in the cart.</h2>
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/App/GetBasketByUser.js?v=@(new Random().Next(1000))"></script>
